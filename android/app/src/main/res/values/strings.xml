@@ -1,0 +1,5 @@
+<resources>
+	<string name="app_name">Cat Test Application</string>
+	<string name="facebook_app_id">446677066055220</string>
+	<string name="fb_login_protocol_scheme">fb446677066055220</string>
+</resources>

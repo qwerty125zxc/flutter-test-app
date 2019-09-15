@@ -42,7 +42,19 @@ class Index extends StatelessWidget {
             Center(child: CircularProgressIndicator()),
 
             if (state is LoggedInGoogleState)
-            Text('Logged in Google: ${state.user.displayName}'),
+            Center(child: Text('Logged in Google: ${state.user.displayName}')),
+
+            if (state is LoggedInFacebookState)
+            Center(child: Text('Logged in Facebook: ${state.user.email}')),
+
+            if (state is ErrorState)
+            Center(child: Text('Logged in nothing: ${state.error}')),
+
+            if (state is LoggedInGoogleState || state is LoggedInFacebookState)
+            Center(child: RaisedButton(
+              child: Text('Sign Out'),
+              onPressed: () => authBloc.dispatch(SignOutEvent()),
+            ))
           ],
         );
       },

@@ -14,17 +14,26 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
     if (event is LoadFacebookEvent) {
-      //do stuff
+      yield LoadingState();
+      try {
+        yield LoggedInGoogleState(user: await authRepository.signInWithFacebook());
+      }
+      catch(e) { yield ErrorState('$e'); }
     }
     else if (event is LoadGoogleEvent) {
       yield LoadingState();
-      yield LoggedInGoogleState(
-        user: await authRepository.signInWithGoogle()
-        .catchError((error) => dispatch(ErrorEvent('$error')))
-      );
+      try {
+        yield LoggedInGoogleState(user: await authRepository.signInWithGoogle());
+      }
+      catch(e) { yield ErrorState('$e'); }
     }
     else if (event is ErrorEvent) {
       yield ErrorState(event.error);
+    }
+    else if (event is SignOutEvent) {
+      yield SignOutLoadingState();
+      await authRepository.signOut();
+      yield UninitializedState();
     }
   }
 }

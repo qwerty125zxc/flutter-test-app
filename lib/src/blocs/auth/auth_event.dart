@@ -10,3 +10,5 @@ class ErrorEvent implements AuthEvent {
   final String error;
   ErrorEvent(this.error);
 }
+
+class SignOutEvent implements AuthEvent {}

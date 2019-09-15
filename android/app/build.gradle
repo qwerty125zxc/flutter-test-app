@@ -62,6 +62,7 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 	// add SDKs for desired Firebase products
   	// https://firebase.google.com/docs/android/setup#available-libraries
+	implementation 'com.facebook.android:facebook-login:[5,6)'
 }
 
 apply plugin: 'com.google.gms.google-services'
