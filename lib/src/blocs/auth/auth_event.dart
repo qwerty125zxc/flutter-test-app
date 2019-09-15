@@ -1,7 +1,12 @@
-import 'package:google_sign_in/google_sign_in.dart';
+abstract class AuthEvent {}
 
-abstract class AuthState {}
+class AppStartedEvent implements AuthEvent {}
 
-class Uninitialized implements AuthState {}
+class LoadFacebookEvent implements AuthEvent {}
 
-class LoadingGoogle implements AuthState {}
+class LoadGoogleEvent implements AuthEvent {}
+
+class ErrorEvent implements AuthEvent {
+  final String error;
+  ErrorEvent(this.error);
+}
