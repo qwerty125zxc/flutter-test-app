@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:cat_test_application/src/auth_repository.dart';
+import 'package:cat_test_application/src/repositories/auth_repository.dart';
 
 import 'auth_event.dart';
 import 'auth_state.dart';
