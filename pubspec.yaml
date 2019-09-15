@@ -4,17 +4,19 @@ description: Flutter Cat Test Application
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   bloc: ^0.15.0
-  meta: ^1.1.6
   rxdart: ^0.22.2
   provider: ^3.1.0
   flutter_bloc: ^0.21.0
+  firebase_auth: ^0.14.0+5
   google_sign_in: ^4.0.7
+  meta: ^1.1.7
+  cloud_firestore: ^0.12.9+4
 
 dev_dependencies:
   flutter_native_splash: ^0.1.7+2
