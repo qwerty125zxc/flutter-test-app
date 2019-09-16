@@ -1,8 +1,9 @@
+import 'package:cat_test_application/src/ui/main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'blocs/auth/auth_bloc.dart';
-import 'ui/index.dart';
+import 'ui/app_starter.dart';
 
 class Application extends StatelessWidget {
   @override
@@ -15,7 +16,8 @@ class Application extends StatelessWidget {
         title: 'Cat Test Application',
         theme: ThemeData(primarySwatch: Colors.blue),
         routes: {
-          '/': (context) => Index(),
+          '/': (context) => AppStarter(),
+          'main': (context) => MainScreen(),
         },
       ),
     );

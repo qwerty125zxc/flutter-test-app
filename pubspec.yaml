@@ -19,6 +19,7 @@ dependencies:
   cloud_firestore: ^0.12.9+4
   flutter_facebook_login: ^2.0.1
   collection: ^1.14.11
+  shared_preferences: ^0.5.3+4
 
 dev_dependencies:
   flutter_native_splash: ^0.1.7+2

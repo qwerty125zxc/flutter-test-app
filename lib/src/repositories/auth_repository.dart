@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class _AuthRepository {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -21,6 +22,11 @@ class _AuthRepository {
     final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
     updateUserData(user);
     currentUser = user;
+
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setBool('signedIn', true);
+    prefs.setString('signedInWith', 'google');
+
     return user;
   }
 
@@ -31,6 +37,11 @@ class _AuthRepository {
     FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
     updateUserData(user);
     currentUser = user;
+
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setBool('signedIn', true);
+    prefs.setString('signedInWith', 'facebook');
+
     return user;
   }
 
@@ -45,7 +56,11 @@ class _AuthRepository {
     }, merge: true);
   }
 
-  Future<void> signOut() => _auth.signOut();
+  Future<void> signOut() async{
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setBool('signedIn', false);
+    _auth.signOut();
+  }
 }
 
 final authRepository = _AuthRepository();
