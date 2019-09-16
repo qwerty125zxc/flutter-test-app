@@ -1,4 +1,5 @@
 import 'package:cat_test_application/src/ui/main_screen.dart';
+import 'package:cat_test_application/src/ui/show_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,6 +19,7 @@ class Application extends StatelessWidget {
         routes: {
           '/': (context) => AppStarter(),
           'main': (context) => MainScreen(),
+          'show': (context) => ShowScreen(),
         },
       ),
     );
