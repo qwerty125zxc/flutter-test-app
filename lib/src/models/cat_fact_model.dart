@@ -1,9 +1,9 @@
 class CatFactModel {
-  final String fact;
+  final String text;
 
-  CatFactModel({this.fact});
+  CatFactModel({this.text});
 
   factory CatFactModel.fromJson(Map<String, dynamic> json) {
-    return CatFactModel(fact: json['fact']);
+    return CatFactModel(text: json['fact']);
   }
 }

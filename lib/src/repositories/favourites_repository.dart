@@ -31,8 +31,44 @@ class FavouritesRepository {
     return FavouritesModel(list);
   }
 
-  saveFavourite(FavouritesModel favourites, FirebaseUser user) {
-    authRepository.updateUserData(user, favourites: favourites);
+  addFavourite(Favourite favourite) {
+    var collection = _db.collection('users').document(authRepository.currentUser.uid);
+    collection.updateData(
+      {'favourites': FieldValue.arrayUnion([favourite.toMap()])}
+    );
+    //authRepository.updateUserData(authRepository.currentUser, favourites: FavouritesModel(localFavourites));
+  }
+  removeFavourite(Favourite favourite) {
+    var collection = _db.collection('users').document(authRepository.currentUser.uid);
+    collection.updateData(
+      {'favourites': FieldValue.arrayRemove([favourite.toMap()])}
+    );
+  }
+  
+  Stream<DocumentSnapshot> isLikedStream(String url) {
+    return _db.collection('users').document(authRepository.currentUser.uid).snapshots();
+    /*var list = snapshot.data['favourites'] as List<Favourite>;
+
+    bool containsUrl() {
+      for (var i in list) {
+        if (i.url == url) {
+          return true;
+        }
+      }
+      return false;
+    }
+
+    yield containsUrl();*/
+    
+  }
+  bool isLiked(DocumentSnapshot snapshot, String url) {
+    var list = snapshot.data['favourites'].map((item) => Favourite.fromMap(item));
+    for (var i in list) {
+        if (i.url == url) {
+          return true;
+        }
+    }
+    return false;
   }
 }
 

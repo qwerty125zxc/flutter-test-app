@@ -20,7 +20,7 @@ class ShowScreen extends StatelessWidget {
                 child: Image.network(item.image.url, fit: BoxFit.cover),
               ),
               HeartButton(item),
-              Text(item.fact.fact),
+              Text(item.fact.text),
             ],
           ),
         )
