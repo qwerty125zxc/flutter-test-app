@@ -1,8 +1,9 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cat_test_application/src/models/cat_model.dart';
 import 'package:cat_test_application/src/repositories/cat_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
+
+import 'components/heart_button.dart';
 
 class MainScreen extends StatefulWidget {
 
@@ -61,7 +62,7 @@ class _MainScreenState extends State<MainScreen> {
   Widget _buildItem(context, CatModel item) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed('show', arguments: {'url': item.image.url, 'fact': item.fact.fact});
+        Navigator.of(context).pushNamed('show', arguments: item);
       },
       child: Card(
         child: Column(
@@ -71,10 +72,7 @@ class _MainScreenState extends State<MainScreen> {
               tag: item.image.url,
               child: Image.network(item.image.url, fit: BoxFit.contain),
             ),
-            IconButton(
-              icon: Icon(Icons.favorite_border),
-              onPressed: () {},
-            )
+            HeartButton(item)
           ],
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:cat_test_application/src/models/favourites_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -45,14 +46,16 @@ class _AuthRepository {
     return user;
   }
 
-  void updateUserData(FirebaseUser user) async {
+  updateUserData(FirebaseUser user, {FavouritesModel favourites}) async {
     DocumentReference ref = _db.collection('users').document(user.uid);
-
+    
     return ref.setData({
       'uid': user.uid,
       'email': user.email,
       'photoURL': user.photoUrl,
       'displayName': user.displayName,
+      if (favourites != null)
+      'favourites': favourites.toFirestoreList(),
     }, merge: true);
   }
 

@@ -1,13 +1,12 @@
 import 'package:cat_test_application/src/models/cat_fact_model.dart';
 import 'package:cat_test_application/src/models/cat_image_model.dart';
 import 'package:cat_test_application/src/models/cat_model.dart';
-import 'package:http/http.dart' show Client;
+import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 class CatRepository {
   static const _apiKey = '155de652-fcd9-4019-8cba-149f1b5c370a';
   static const pageItemLimit = 20;
-  static final http = Client();
 
   Future<List<CatImageModel>> images(int page) async{
     var response = await http.get(
@@ -28,7 +27,6 @@ class CatRepository {
       headers: { 'Accept': 'application/json' }
     );
     dynamic json = convert.jsonDecode(response.body);
-    print(json['current_page']);
     var list = <CatFactModel>[];
     for (var item in json['data']) {
       list.add(CatFactModel.fromJson(item));
