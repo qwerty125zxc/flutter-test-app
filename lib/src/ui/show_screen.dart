@@ -7,7 +7,7 @@ class ShowScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CatModel item = ModalRoute.of(context).settings.arguments;
+    CatItemModel item = ModalRoute.of(context).settings.arguments;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -16,11 +16,11 @@ class ShowScreen extends StatelessWidget {
           child: Column(
             children: <Widget>[
               Hero(
-                tag: item.image.url,
-                child: Image.network(item.image.url, fit: BoxFit.cover),
+                tag: item.imageUrl,
+                child: Image.network(item.imageUrl, fit: BoxFit.cover),
               ),
               HeartButton(item),
-              Text(item.fact.text),
+              Text(item.fact),
             ],
           ),
         )

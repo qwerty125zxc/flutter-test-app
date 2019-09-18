@@ -1,4 +1,4 @@
-import 'package:cat_test_application/src/models/favourites_model.dart';
+import 'package:cat_test_application/src/models/cat_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -22,7 +22,6 @@ class _AuthRepository {
 
     final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
     updateUserData(user);
-    currentUser = user;
 
     var prefs = await SharedPreferences.getInstance();
     prefs.setBool('signedIn', true);
@@ -37,7 +36,6 @@ class _AuthRepository {
     AuthCredential credential = FacebookAuthProvider.getCredential(accessToken: result.accessToken.token);
     FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
     updateUserData(user);
-    currentUser = user;
 
     var prefs = await SharedPreferences.getInstance();
     prefs.setBool('signedIn', true);
@@ -46,16 +44,21 @@ class _AuthRepository {
     return user;
   }
 
-  updateUserData(FirebaseUser user, {FavouritesModel favourites}) async {
+  updateUserData(FirebaseUser user, {CatItemModel favourites}) async {
+    currentUser = user;
+    
     DocumentReference ref = _db.collection('users').document(user.uid);
+
+    var snapshot = await ref.get();
+    if (snapshot.data['favourites'] == null) {
+      ref.setData({'favourites': []}, merge: true);
+    }
     
     return ref.setData({
       'uid': user.uid,
       'email': user.email,
       'photoURL': user.photoUrl,
       'displayName': user.displayName,
-      if (favourites != null)
-      'favourites': favourites.toFirestoreList(),
     }, merge: true);
   }
 

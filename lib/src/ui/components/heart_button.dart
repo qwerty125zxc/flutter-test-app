@@ -1,23 +1,21 @@
 import 'package:cat_test_application/src/models/cat_model.dart';
-import 'package:cat_test_application/src/models/favourites_model.dart';
 import 'package:cat_test_application/src/repositories/favourites_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class HeartButton extends StatelessWidget {
 
-  final CatModel item;
+  final CatItemModel item;
 
   HeartButton(this.item);
 
   @override
   Widget build(BuildContext context) {
-    var favourite = Favourite(item.image.url, item.fact.text);
     return StreamBuilder<DocumentSnapshot>(
-        stream: favouritesRepository.isLikedStream(favourite.url),
+        stream: favouritesRepository.isLikedStream(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            bool liked = favouritesRepository.isLiked(snapshot.data, favourite.url);
+            bool liked = favouritesRepository.isLiked(snapshot.data, item.imageUrl);
             return IconButton(
               icon: Icon(
                 liked
@@ -26,9 +24,9 @@ class HeartButton extends StatelessWidget {
               ),
               onPressed: () {
                 if (!liked) {
-                  favouritesRepository.addFavourite(favourite);
+                  favouritesRepository.addFavourite(item);
                 } else {
-                  favouritesRepository.removeFavourite(favourite);
+                  favouritesRepository.removeFavourite(item);
                 }
               },
             );

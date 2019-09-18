@@ -34,12 +34,12 @@ class CatRepository {
     return list;
   }
 
-  Future<List<CatModel>> cats(int page) async{
+  Future<List<CatItemModel>> cats(int page) async{
     var imgs = await images(page);
     var fcts = await facts(page);
-    var list = <CatModel>[];
+    var list = <CatItemModel>[];
     for (var i = 0; i < pageItemLimit; i++) {
-      list.add(CatModel(imgs[i], fcts[i]));
+      list.add(CatItemModel(imgs[i].id, imgs[i].url, fcts[i].text));
     }
     return list;
   }

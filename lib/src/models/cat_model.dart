@@ -1,9 +1,26 @@
-import 'package:cat_test_application/src/models/cat_fact_model.dart';
-import 'package:cat_test_application/src/models/cat_image_model.dart';
+class CatItemModel {
+  final String id;
+  final String imageUrl;
+  final String fact;
 
-class CatModel {
-  CatImageModel image;
-  CatFactModel fact;
+  CatItemModel(this.id, this.imageUrl, this.fact);
 
-  CatModel(this.image, this.fact);
+  factory CatItemModel.fromMap(map) {
+    return CatItemModel(
+      map['id'],
+      map['url'],
+      map['fact'],
+    );
+  }
+
+  Map<String, dynamic> toMap() => {
+    'id': id,
+    'url': imageUrl,
+    'fact': fact,
+  };
+
+  @override
+  String toString() {
+    return 'id: $id, url: $imageUrl, fact: $fact';
+  }
 }

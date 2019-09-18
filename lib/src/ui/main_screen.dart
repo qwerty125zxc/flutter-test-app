@@ -1,9 +1,7 @@
-import 'package:cat_test_application/src/models/cat_model.dart';
-import 'package:cat_test_application/src/repositories/cat_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_pagewise/flutter_pagewise.dart';
 
-import 'components/heart_button.dart';
+import 'main_screen/index.dart';
+import 'main_screen/favourites.dart';
 
 class MainScreen extends StatefulWidget {
 
@@ -16,12 +14,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-
-    final tabPages = <Widget>[
-      _buildHome(context),
-      _buildFavourites(context),
-      _buildAccount(context)
-    ];
 
     final bottmonNavBarItems = <BottomNavigationBarItem>[
       BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
@@ -45,45 +37,16 @@ class _MainScreenState extends State<MainScreen> {
         title: Text('Cat Test Application'),
         centerTitle: true,
       ),
-      body: tabPages[currentTabIndex],
+      body: pageByIndex(context, currentTabIndex),
       bottomNavigationBar: bottomNavBar,
     );
   }
-
-  Widget _buildHome(context) {
-    return PagewiseListView(
-      pageSize: CatRepository.pageItemLimit,
-      padding: EdgeInsets.all(8.0),
-      itemBuilder: (context, CatModel entry, index) => _buildItem(context, entry),
-      pageFuture: (pageIndex) => catRepository.cats(pageIndex),
-    );
-  }
-
-  Widget _buildItem(context, CatModel item) {
-    return InkWell(
-      onTap: () {
-        Navigator.of(context).pushNamed('show', arguments: item);
-      },
-      child: Card(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            Hero(
-              tag: item.image.url,
-              child: Image.network(item.image.url, fit: BoxFit.contain),
-            ),
-            HeartButton(item)
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFavourites(context) {
-    return Container(width: 0.0, height: 0.0);
-  }
-
-  Widget _buildAccount(context) {
-    return Container(width: 0.0, height: 0.0);
+  Widget pageByIndex(context, int index) {
+    switch(index) {
+      case 0: return buildHome(context);
+      case 1: return buildFavourites(context);
+      case 2: return Center(child: Text('hello world'));
+      default: return Container(width: 0, height: 0);
+    }
   }
 }
