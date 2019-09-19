@@ -48,18 +48,18 @@ class _AuthRepository {
     currentUser = user;
     
     DocumentReference ref = _db.collection('users').document(user.uid);
-
-    var snapshot = await ref.get();
-    if (snapshot.data['favourites'] == null) {
-      ref.setData({'favourites': []}, merge: true);
-    }
     
-    return ref.setData({
+    ref.setData({
       'uid': user.uid,
       'email': user.email,
       'photoURL': user.photoUrl,
       'displayName': user.displayName,
     }, merge: true);
+
+    var snapshot = await ref.get();
+    if (snapshot.data['favourites'] == null) {
+      ref.updateData({'favourites': []});
+    }
   }
 
   Future<void> signOut() async{

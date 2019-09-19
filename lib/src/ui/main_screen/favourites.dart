@@ -6,13 +6,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
 
 Widget buildFavourites(context) {
-  return PagewiseListView<CatItemModel>(
-    key: PageStorageKey('2'),
-    pageSize: CatRepository.pageItemLimit,
-    padding: EdgeInsets.all(8.0),
-    itemBuilder: (context, CatItemModel entry, index) => buildCatListItem(context, entry, fit: BoxFit.cover),
-    pageFuture: (pageIndex) {
-      return favouritesRepository.getFavourites(pageIndex);
-    }
+  return FutureBuilder<List<CatItemModel>>(
+    future: favouritesRepository.getFavourites(),
+    builder: (context, snapshot) {
+      return snapshot.hasData ?
+      ListView.builder(
+        itemCount: snapshot.data.length,
+        itemBuilder: (context, index) {
+          return buildCatListItem(context, snapshot.data[index]);
+        },
+      )
+      : CircularProgressIndicator();
+    },
   );
 }

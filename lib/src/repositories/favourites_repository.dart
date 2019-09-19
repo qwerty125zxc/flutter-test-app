@@ -9,8 +9,8 @@ class FavouritesRepository {
   var _currentFavouritesList = <CatItemModel>[];
   bool _downloaded = false;
 
-  Future<List<CatItemModel>> getFavourites(int page) async{
-    if (!_downloaded) {
+  Future<List<CatItemModel>> getFavourites() async{
+    //if (!_downloaded) {
       _downloaded = true;
       var query = _db.collection('users').where('uid', isEqualTo: authRepository.currentUser.uid);
       var snapshot = await query.getDocuments();
@@ -18,9 +18,9 @@ class FavouritesRepository {
       var document = documents.first.data;
 
       List<Map> list = List.from(document['favourites']);
-      _currentFavouritesList = list.map((item) => CatItemModel.fromMap(item)).toList();
-    }
-    return _currentFavouritesList.skip(pageItemLimit * page).take(pageItemLimit).toList();
+      return list.map((item) => CatItemModel.fromMap(item)).toList();
+    //}
+    //return _currentFavouritesList;
   }
 
   addFavourite(CatItemModel favourite) {
