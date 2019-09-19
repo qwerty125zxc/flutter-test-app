@@ -6,8 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pagewise/flutter_pagewise.dart';
 
 Widget buildFavourites(context) {
-  return PagewiseGridView.count(
-    crossAxisCount: 2,
+  return PagewiseListView<CatItemModel>(
     key: PageStorageKey('2'),
     pageSize: CatRepository.pageItemLimit,
     padding: EdgeInsets.all(8.0),

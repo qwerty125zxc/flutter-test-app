@@ -65,6 +65,7 @@ class _AuthRepository {
   Future<void> signOut() async{
     var prefs = await SharedPreferences.getInstance();
     prefs.setBool('signedIn', false);
+    currentUser = null;
     _auth.signOut();
   }
 }

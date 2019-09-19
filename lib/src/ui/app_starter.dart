@@ -29,7 +29,7 @@ class AppStarter extends StatelessWidget {
             return BlocListener<AuthBloc, AuthState>(
               listener: (context, state) {
                 if (state is LoggedInFacebookState || state is LoggedInGoogleState) {
-                  Navigator.of(context).pushReplacementNamed('main');
+                  Navigator.of(context).pushReplacementNamed('main', arguments: authBloc);
                 }
               },
               child: Scaffold(body: Container(width: 0, height: 0)),

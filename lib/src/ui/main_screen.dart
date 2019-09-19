@@ -1,19 +1,26 @@
+import 'package:cat_test_application/src/blocs/auth/auth_bloc.dart';
+import 'package:cat_test_application/src/ui/main_screen/account.dart';
 import 'package:flutter/material.dart';
 
 import 'main_screen/index.dart';
 import 'main_screen/favourites.dart';
 
 class MainScreen extends StatefulWidget {
-
   @override
   _MainScreenState createState() => _MainScreenState();
 }
 
 class _MainScreenState extends State<MainScreen> {
+
   int currentTabIndex = 0;
+
+  AuthBloc authBloc;
 
   @override
   Widget build(BuildContext context) {
+
+    authBloc = ModalRoute.of(context).settings.arguments;
+    
 
     final bottmonNavBarItems = <BottomNavigationBarItem>[
       BottomNavigationBarItem(icon: Icon(Icons.home), title: Text('Home')),
@@ -45,7 +52,7 @@ class _MainScreenState extends State<MainScreen> {
     switch(index) {
       case 0: return buildHome(context);
       case 1: return buildFavourites(context);
-      case 2: return Center(child: Text('hello world'));
+      case 2: return buildAccount(authBloc);
       default: return Container(width: 0, height: 0);
     }
   }

@@ -46,7 +46,7 @@ class SignInScreen extends StatelessWidget {
               RaisedButton(
                 child: Text('Go'),
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, 'main');
+                  Navigator.pushReplacementNamed(context, 'main', arguments: authBloc);
                 },
               )
             ],

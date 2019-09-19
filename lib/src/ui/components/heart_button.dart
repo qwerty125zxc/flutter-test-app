@@ -17,11 +17,10 @@ class HeartButton extends StatelessWidget {
           if (snapshot.hasData) {
             bool liked = favouritesRepository.isLiked(snapshot.data, item.imageUrl);
             return IconButton(
-              icon: Icon(
-                liked
-                ? Icons.favorite
-                : Icons.favorite_border
-              ),
+              icon: liked
+                ? Icon(Icons.favorite, color: Colors.red)
+                : Icon(Icons.favorite_border)
+                ,
               onPressed: () {
                 if (!liked) {
                   favouritesRepository.addFavourite(item);
