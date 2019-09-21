@@ -6,43 +6,45 @@ class FavouritesRepository {
   static const int pageItemLimit = 10;
 
   Firestore _db = Firestore.instance;
-  var _currentFavouritesList = <CatItemModel>[];
-  bool _downloaded = false;
 
-  Future<List<CatItemModel>> getFavourites() async{
-    //if (!_downloaded) {
-      _downloaded = true;
-      var query = _db.collection('users').where('uid', isEqualTo: authRepository.currentUser.uid);
-      var snapshot = await query.getDocuments();
-      var documents = snapshot.documents;
-      var document = documents.first.data;
+  Future<List<CatItemModel>> getFavourites() async {
+    var query = _db
+        .collection('users')
+        .where('uid', isEqualTo: authRepository.currentUser.uid);
+    var snapshot = await query.getDocuments();
+    var documents = snapshot.documents;
+    var document = documents.first.data;
 
-      List<Map> list = List.from(document['favourites']);
-      return list.map((item) => CatItemModel.fromMap(item)).toList();
-    //}
-    //return _currentFavouritesList;
+    List<Map> list = List.from(document['favourites']);
+    return list.map((item) => CatItemModel.fromMap(item)).toList().reversed.toList();
   }
 
   addFavourite(CatItemModel favourite) {
-    var collection = _db.collection('users').document(authRepository.currentUser.uid);
-    collection.updateData(
-      {
-        'favourites': FieldValue.arrayUnion([favourite.toMap()])
-      }
-    );
+    var collection =
+        _db.collection('users').document(authRepository.currentUser.uid);
+    collection.updateData({
+      'favourites': FieldValue.arrayUnion([favourite.toMap()])
+    });
   }
+
   removeFavourite(CatItemModel favourite) {
-    var collection = _db.collection('users').document(authRepository.currentUser.uid);
-    collection.updateData(
-      {'favourites': FieldValue.arrayRemove([favourite.toMap()])}
-    );
+    var collection =
+        _db.collection('users').document(authRepository.currentUser.uid);
+    collection.updateData({
+      'favourites': FieldValue.arrayRemove([favourite.toMap()])
+    });
   }
-  
+
   Stream<DocumentSnapshot> isLikedStream() {
-    return _db.collection('users').document(authRepository.currentUser.uid).snapshots();
+    return _db
+        .collection('users')
+        .document(authRepository.currentUser.uid)
+        .snapshots();
   }
+
   bool isLiked(DocumentSnapshot snapshot, String imageUrl) {
-    var list = snapshot.data['favourites'].map((item) => CatItemModel.fromMap(item));
+    var list =
+        snapshot.data['favourites'].map((item) => CatItemModel.fromMap(item));
     for (var i in list) {
       if (i.imageUrl == imageUrl) {
         return true;

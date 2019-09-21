@@ -17,7 +17,7 @@ Widget buildAccount(AuthBloc authBloc) {
           title: Text(user.displayName),
         ),
         ListTile(
-          title: Text(user.email),
+          title: Text(user.email ?? "Not specified"),
           subtitle: Text('Email'),
         ),
         RaisedButton(

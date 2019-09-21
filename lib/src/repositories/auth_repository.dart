@@ -1,4 +1,3 @@
-import 'package:cat_test_application/src/models/cat_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -6,7 +5,12 @@ import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class _AuthRepository {
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final facebookLogin = FacebookLogin();
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+    ],
+  );
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final Firestore _db = Firestore.instance;
   FirebaseUser currentUser;
@@ -31,10 +35,10 @@ class _AuthRepository {
   }
 
   Future<FirebaseUser> signInWithFacebook() async {
-    final facebookLogin = FacebookLogin();
     final result = await facebookLogin.logInWithReadPermissions(['email']);
     AuthCredential credential = FacebookAuthProvider.getCredential(accessToken: result.accessToken.token);
-    FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
+
+    final FirebaseUser user = (await _auth.signInWithCredential(credential)).user;
     updateUserData(user);
 
     var prefs = await SharedPreferences.getInstance();
@@ -44,7 +48,7 @@ class _AuthRepository {
     return user;
   }
 
-  updateUserData(FirebaseUser user, {CatItemModel favourites}) async {
+  updateUserData(FirebaseUser user) async {
     currentUser = user;
     
     DocumentReference ref = _db.collection('users').document(user.uid);
